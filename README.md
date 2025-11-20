@@ -1,22 +1,46 @@
 # Smart Document OCR with Decorators
 
+![Java CI](https://github.com/ArseniiStratiuk/Decorator-OCR/actions/workflows/maven.yml/badge.svg)
+
 ## Project Goal
 This project implements the **Decorator Pattern** to enhance an OCR (Optical Character Recognition) document parser.
-- **Base Component**: `SmartDocument` uses Google Cloud Vision API to extract text from images.
+- **Base Component**: `SmartDocument` uses **Tesseract OCR** to extract text from images locally.
 - **Decorators**:
-  - `CachedDocument`: Caches results in a local SQLite database (`data.db`) to optimize performance and reduce API costs.
+  - `CachedDocument`: Caches results in a local SQLite database (`data.db`) to optimize performance.
   - `TimedDocument`: Measures and logs the execution time of the parsing operation.
 
-## Usage
-1. **Setup Google Cloud**:
-   - Enable Vision API in your Google Cloud Console.
-   - Set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to point to your JSON service account key.
+## Prerequisites
+1. **Install Tesseract OCR**:
+   - **Windows**: Download and install from [UB-Mannheim/tesseract](https://github.com/UB-Mannheim/tesseract/wiki). 
+     - **Important**: Note the installation path (e.g., `D:\tesseract-ocr` or `C:\Program Files\Tesseract-OCR`).
+   - **macOS**: `brew install tesseract`
+   - **Linux**: `sudo apt-get install tesseract-ocr`
 
-2. **Run the Application**:
-   - Open `src/main/java/apps/lab10/Main.java`.
-   - Update the `filePath` variable to point to a real image on your computer.
-   - Run the `main` method.
+2. **Java Development Kit (JDK)**:
+   - Ensure JDK 17 or higher is installed.
 
-3. **Expected Behavior**:
-   - **First Run**: The application calls the Google Cloud API (slower) and saves the result to the database.
-   - **Second Run**: The application retrieves the text from the local SQLite cache (significantly faster).
+## Setup & Usage
+
+### 1. Configure Environment
+The application needs to know where Tesseract is installed. You can set this like this:
+
+**System Environment Variable**
+- Set a system environment variable `TESSDATA_PREFIX` pointing to your Tesseract installation directory.
+- Restart VS Code or your terminal to pick up the change.
+
+### 2. Run the Application
+1. Open `src/main/java/apps/lab10/Main.java`.
+2. Run the `main` method.
+3. **First Run**: The application calls Tesseract (slower) and saves the result to the database.
+4. **Second Run**: The application retrieves the text from the local SQLite cache (significantly faster).
+
+## Testing
+This project includes basic unit tests for the Decorator logic.
+To run tests via Maven:
+```bash
+mvn test
+```
+
+## CI/CD
+A GitHub Actions workflow is included in `.github/workflows/maven.yml` to automatically build and test the project on every push to the `main` branch.
+

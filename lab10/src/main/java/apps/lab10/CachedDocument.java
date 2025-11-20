@@ -10,14 +10,16 @@ public class CachedDocument implements Document {
     @Override
     public String parse() {
         String cached = SQLiteInjector.get(path);
-        if (cached != null) {
+        if (cached != null && !cached.startsWith("Error:")) {
             System.out.println("Found in cache!");
             return cached;
         }
         
         System.out.println("Not in cache. Parsing...");
         String parsed = document.parse();
-        SQLiteInjector.put(path, parsed);
+        if (!parsed.startsWith("Error:")) {
+            SQLiteInjector.put(path, parsed);
+        }
         return parsed;
     }
 }

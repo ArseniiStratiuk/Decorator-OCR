@@ -2,12 +2,10 @@ package apps.lab10;
 
 public class Main {
     public static void main(String[] args) {
-        // Replace with a real image path on your computer
-        String filePath = "test_image.png"; 
+        String filePath = "Decorator-OCR-main/lab10/src/main/java/apps/lab10/testocr.png"; 
 
         System.out.println("--- First Run (Should hit API) ---");
         Document smartDoc = new SmartDocument(filePath);
-        // Wrap with caching (needs path for DB key) and timing
         Document cachedDoc = new CachedDocument(smartDoc, filePath);
         Document timedDoc = new TimedDocument(cachedDoc);
         
