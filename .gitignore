@@ -1,0 +1,17 @@
+.vscode
+target
+*.class
+*.jar
+*.war
+*.ear
+.idea
+*.iml
+.DS_Store
+*.log
+.settings
+.classpath
+.project
+bin/
+tessdata/
+*.json
+dependency-reduced-pom.xml
